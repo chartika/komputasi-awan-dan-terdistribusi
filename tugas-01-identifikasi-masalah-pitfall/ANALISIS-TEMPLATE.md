@@ -63,3 +63,8 @@
 ## Kesimpulan Kelompok
 
 [Ringkasan: jika FoodGo memperbaiki ketiga pitfall ini, apa arsitektur yang disarankan secara garis besar? Kaitkan dengan Tugas 2.]
+Jika FoodGo memperbaiki ketiga pitfall tersebut, arsitektur yang disarankan adalah arsitektur yang lebih *terpisah dan tidak bergantung pada satu server atau satu proses*. Modul seperti pesanan, pembayaran, dan notifikasi kurir dapat dibuat menjadi service yang terpisah sehingga jika salah satu service mengalami masalah, service lainnya tidak langsung ikut berhenti.
+
+Untuk mengatasi masalah *latency, komunikasi antarservice dapat menggunakan proses asynchronous dan dilengkapi timeout. Untuk masalah **network reliability, sistem dapat menggunakan retry dengan batas tertentu agar komunikasi yang gagal dapat dicoba kembali. Sedangkan untuk **SPOF*, beban dapat dibagi ke beberapa server agar tidak hanya bergantung pada satu server.
+
+Hal ini dapat dikaitkan dengan *Tugas 2, terutama pada architectural style **SOA* dan *Publish-Subscribe*. SOA dapat digunakan untuk memisahkan fungsi FoodGo menjadi beberapa service, sedangkan Publish-Subscribe dapat membantu service berkomunikasi melalui pesan atau event tanpa harus saling bergantung secara langsung. Dengan begitu, ketika tim kurir atau tim resto melakukan perubahan dan deployment pada modulnya, modul lain tidak harus ikut restart.
