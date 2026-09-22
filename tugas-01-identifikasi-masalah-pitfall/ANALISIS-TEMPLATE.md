@@ -6,7 +6,7 @@
 |---|---|---|
 | [Chartika Jenyansa Pangaribuan] | [103072400026] | [Latency Is Zero] |
 | [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
-| [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
+| [Nur Aisyah Luhur Pambudi] | [103072430015] | [The Network is Reliable] |
 
 ## Pitfall 1: [Latency Is Zero] — ditulis oleh [Chartika Jenyansa Pangaribuan]
 
