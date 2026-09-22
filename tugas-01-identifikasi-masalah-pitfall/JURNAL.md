@@ -8,7 +8,9 @@
 - Poin diskusi:
 1. Menentukan dan menyepakati untuk menggunakan 3 pitfall yaitu, "Latency Is Zero", "Single point of Failure", dan "The Network is Reliable"
 2. Chartika memilih pitfall "Latency Is Zero" Karena komunikasi antar modul tidak berjalan dengan cepat dan membuat sistem aplikasi menjadi terhambat karena tidak ada batas waktu (timeout).
-3. Alexandria memilih pitfall "Single point of Failure" karena ...
+
+3. Alexandria memilih pitfall "Single point of Failure" karena pada studi kasus tersebut semua modul FoodGo berjalan pada satu server dan satu proses monolitik. Ketika server mengalami kelebihan beban atau crash, seluruh layanan FoodGo ikut terganggu.
+
 4. Nur Aisyah memilih pitfall "The Network is Reliable" karena jaringan pada FoodGo dianggap selalu dapat diandalkan sehingga tidak ada mekanisme retry ketika terjadi kegagalan komunikasi antar-service.
 
 - Perbedaan pendapat (jika ada): ...
@@ -20,8 +22,8 @@
 ## Review Silang
 - [Chartika] mengomentari analisis [Alexandria]: ...
 - [Chartika] mengomentari analisis [Nur Aisyah]: ...
-- [Alexandria] mengomentari analisis [Chartika]: ...
-- [Alexandria] mengomentari analisis [Nur Aisyah]: ...
+- [Alexandria] mengomentari analisis [Chartika]: Menurut saya, analisisnya sudah jelas dan sesuai dengan skenario FoodGo. Namun, bagian solusi bisa diperjelas lagi mengenai bagaimana sistem menangani status pesanan ketika pembayaran masih diproses atau mengalami kegagalan
+- [Alexandria] mengomentari analisis [Nur Aisyah]: Menurut saya, analisisnya sudah jelas dan sesuai dengan skenario FoodGo. Namun, bagian solusi bisa diperjelas lagi mengenai penggunaan timeout untuk menentukan batas waktu ketika service tidak memberikan respons sebelum sistem melakukan retry
 - [Nur Aisyah] mengomentari analisis [Chartika]: ...
 - [Nur Aisyah] mengomentari analisis [Alexandria]: Menurut saya, analisis yang diberikan sudah cukup jelas dan sesuai dengan skenario FoodGo. Solusi penggunaan load balancing juga sudah relevan untuk mengatasi beban pada satu server. Namun, bagian solusi dapat diperjelas dengan menambahkan penggunaan beberapa server secara redundant, sehingga ketika salah satu server mengalami gangguan, sistem masih dapat berjalan melalui server lainnya
 
@@ -30,5 +32,11 @@
 > Wajib diisi sesuai kebijakan Level 2 di [`../RUBRIK-UMUM.md`](../RUBRIK-UMUM.md). Tulis "Tidak memakai AI" pada baris pertama jika memang tidak dipakai. Hanya untuk brainstorming ide/outline — bukan untuk kode/analisis/teks akhir.
 
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
+
 |---|---|---|---|---|
+|21-09-2026 |ChatGPT|Dari studi kasus FoodGo tersebut, saya ingin menganalisis menggunakan pitfall Single Point of Failure (SPOF) / arsitektur monolitik. Apakah benar bahwa skenario yang menunjukkan pitfall tersebut adalah FoodGo menggunakan satu server untuk menangani seluruh modul, seperti pesanan, pembayaran, dan notifikasi kurir, sehingga ketika trafik meningkat server menjadi kewalahan? Jika benar, jelaskan secara sederhana:
+1.Jika solusi yang saya berikan adalah menambahkan server cadangan, apakah solusi tersebut sesuai untuk mengatasi masalah tersebut? Jelaskan kelebihan dan kekurangannya.
+2.Berikan beberapa contoh solusi desain lain yang dapat digunakan FoodGo untuk mengatasi masalah tersebut, beserta gambaran sederhananya.
+Jelaskan secara naratif dan sederhana agar mudah dipahami, serta tetap berdasarkan informasi yang terdapat pada studi kasus.|Single Point of Failure (SPOF) sesuai dengan studi kasus FoodGo karena seluruh modul berjalan pada satu server dan satu proses monolitik. Penambahan server cadangan dapat mengurangi ketergantungan pada satu server, tetapi membutuhkan biaya dan konfigurasi tambahan. Solusi alternatif lainnya seperti load balancing dan penggunaan beberapa server|Menuliskan kembali hasil penjelasan dengan bahasa sendiri berdasarkan pemahaman terhadap studi kasus FoodGo|
+
 | 21-09-2026 | ChatGPT | Diberikan studi kasus sebagai berikut:<br><br>**Studi Kasus : FoodGo**<br>Startup **FoodGo** (aplikasi pesan-antar makanan) mengalami kegagalan sistem saat pesanan melonjak (misalnya jam makan siang atau saat promo besar). Gejala yang dilaporkan tim engineering FoodGo:<br>- Aplikasi jadi sangat lambat, beberapa permintaan *timeout*.<br>- Server backend kadang *crash* total dan perlu di-restart manual.<br>- Tim menemukan bahwa kode mereka menulis asumsi seperti `# network is always reliable, no need for retry` dan tidak ada *timeout* sama sekali pada pemanggilan antar service (modul pesanan memanggil modul pembayaran dan menunggu tanpa batas waktu).<br>- Saat trafik naik, satu server yang menangani semua modul (pesanan, pembayaran, notifikasi kurir) kewalahan karena semuanya berjalan di satu proses monolitik yang sama.<br><br>Ini merupakan gejala klasik dari **kesalahan asumsi tentang jaringan dan skala** yang terkenal di literatur sebagai *Fallacies of Distributed Computing* (Peter Deutsch et al.), ditambah masalah desain terkait skalabilitas.<br><br>Dari daftar *Fallacies of Distributed Computing* terdapat pitfall "the network is reliable", "latency is zero", "bandwidth is infinite", "the network is secure", "topology doesn't change", "there is one administrator", "transport cost is zero", "the network is homogeneous" **dan** mis. *single point of failure* karena arsitektur monolitik. Pitfall apa yang mungkin relevan dengan studi kasus diatas dan jelaskan secara spesifik alasannya! | Pitfall yang relevan adalah *the network is reliable* karena FoodGo menganggap jaringan selalu dapat diandalkan sehingga tidak menyediakan mekanisme retry ketika komunikasi gagal, *latency is zero* karena tidak ada timeout sehingga modul pesanan dapat menunggu respons pembayaran tanpa batas waktu, serta *single point of failure* karena seluruh modul berjalan dalam satu server dan proses monolitik, sehingga ketika server kewalahan atau crash, seluruh layanan ikut terganggu. | Menuliskan ulang alasan untuk setiap pitfall agar penjelasan lebih fokus pada penyebab teknis dan dampaknya |
