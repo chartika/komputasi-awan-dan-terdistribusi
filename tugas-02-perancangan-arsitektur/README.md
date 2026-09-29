@@ -46,10 +46,10 @@ Trade-off:
   Event yang dikirim melalui Message Broker tidak langsung diproses oleh service penerima pada saat yang sama. Misalnya, setelah pembayaran berhasil, Service Resto membutuhkan waktu untuk menerima dan memproses event OrderPaid.
 
   - Lebih sulit mencari sumber masalah
-  Jika event `OrderPaid` tidak sampai atau tidak diproses dengan benar, perlu diperiksa dari Service Pesanan, Message Broker, sampai service yang menerima event tersebut. Jadi, proses mencari kesalahan bisa lebih panjang.
+  Jika event OrderPaid tidak sampai atau tidak diproses dengan benar, perlu diperiksa dari Service Pesanan, Message Broker, sampai service yang menerima event tersebut. Jadi, proses mencari kesalahan bisa lebih panjang.
 
   - Perlu menangani event yang gagal
-  Jika terjadi gangguan saat event diproses, FoodGo perlu memiliki mekanisme seperti *retry* atau penyimpanan pesan agar event tidak langsung hilang dan dapat diproses kembali.
+  Jika terjadi gangguan saat event diproses, FoodGo perlu memiliki mekanisme seperti retry atau penyimpanan pesan agar event tidak langsung hilang dan dapat diproses kembali.
 
 
 ## Cara Membuat Diagram (Gratis, Cukup Laptop)
