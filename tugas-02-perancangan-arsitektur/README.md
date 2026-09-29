@@ -28,7 +28,13 @@ Melanjutkan Tugas 1: FoodGo butuh sistem yang **decoupled** agar tim kurir dan t
     Diagram foodgo:  
     ![Diagram FoodGo](<diagram/diagram foodgo.drawio.png>)  
 
-3. 
+3. Alur skenario secara end-to-end:
+    - Melihat Menu: Pelanggan meminta informasi menu kepada Service Katalog Resto, lalu Service Katalog Resto memberikan informasi menu sesuai permintaan pelanggan secara sinkron (request-response). Setelah itu, pelanggan memilih menu yang diinginkan.   
+    - Membuat Pesanan: Setelah memilih menu, pelanggan membuat pesanan dan dikirimkan ke Service Pesanan secara sinkron (request-response). Service Pesanan kemudian menerima dan memproses data pesanan pelanggan.   
+    - Proses Pembayaran: Service Pesanan mengirimkan permintaan pembayaran ke Service Pembayaran. Jika pembayaran berhasil, Service Pembayaran mengirim balik respon _"Bayar berhasil"_ ke Service Pesanan.   
+    - Penerbitan Event: Service Pesanan mempublish event _OrderPaid_ setelah menerima konfirmasi bahwa pembayaran berhasil. Event ini dikirimkan ke _Message Broker_ menggunakan komunikasi asinkron (event).   
+    - Menerima Event (Resto): Service Resto menerima (_subscribe_) event dari _Message Broker_ secara asinkron, sehingga pihak resto mengetahui bahwa pesanan telah dibayar dan siap diproses.   
+    - Notifikasi & Kurir: Service Kurir/Notifikasi juga menerima (subscribe) event dari _Message Broker_ secara asinkron untuk memproses penugasan kurir serta pengiriman notifikasi.
 4. 
 
 ## Cara Membuat Diagram (Gratis, Cukup Laptop)
