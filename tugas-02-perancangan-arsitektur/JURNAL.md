@@ -18,10 +18,10 @@
 
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
 | 29-09-2026 | Gemini | Berdasarkan contoh kode Mermaid berikut:
-graph LR{
+'graph LR
   Client[Pelanggan] -->|HTTP request pesan| OrderSvc[Service Pesanan]
   OrderSvc -->|RPC sinkron| PaymentSvc[Service Pembayaran]
   OrderSvc -->|publish event OrderCreated| Broker[(Message Broker)]
   Broker -->|subscribe| NotifSvc[Service Notifikasi Kurir]
-  Broker -->|subscribe| RestoSvc[Service Katalog Resto]}
+  Broker -->|subscribe| RestoSvc[Service Katalog Resto]'
 Bagaimana bentuk diagram yang dihasilkan dari kode tersebut? Selain itu, berikan contoh susunan kode Mermaid lainnya yang dapat digunakan untuk membuat diagram di README.md dan ditampilkan di GitHub, agar saya dapat memahami struktur penulisannya. | AI menjelaskan bentuk diagram yang dihasilkan dari contoh kode Mermaid dan memberikan contoh struktur penulisan Mermaid yang dapat digunakan dalam README.md agar diagram dapat ditampilkan di GitHub. | Struktur kode dijadikan referensi, kemudian disesuaikan dengan kebutuhan arsitektur FoodGo dan alur komunikasi yang dipilih kelompok. |
