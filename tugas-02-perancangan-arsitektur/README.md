@@ -41,13 +41,10 @@ Selain itu, Publish-Subscribe digunakan untuk proses yang tidak membutuhkan resp
 Trade-off:
   - Sistem menjadi lebih kompleks
   Karena FoodGo memiliki beberapa service dan Message Broker, pengelolaannya menjadi lebih banyak dibandingkan ketika semua fungsi masih berada dalam satu aplikasi.
-
   - Proses asynchronous membutuhkan waktu
   Event yang dikirim melalui Message Broker tidak langsung diproses oleh service penerima pada saat yang sama. Misalnya, setelah pembayaran berhasil, Service Resto membutuhkan waktu untuk menerima dan memproses event OrderPaid.
-
   - Lebih sulit mencari sumber masalah
   Jika event OrderPaid tidak sampai atau tidak diproses dengan benar, perlu diperiksa dari Service Pesanan, Message Broker, sampai service yang menerima event tersebut. Jadi, proses mencari kesalahan bisa lebih panjang.
-
   - Perlu menangani event yang gagal
   Jika terjadi gangguan saat event diproses, FoodGo perlu memiliki mekanisme seperti retry atau penyimpanan pesan agar event tidak langsung hilang dan dapat diproses kembali.
 
