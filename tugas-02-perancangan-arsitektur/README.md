@@ -16,7 +16,18 @@ Melanjutkan Tugas 1: FoodGo butuh sistem yang **decoupled** agar tim kurir dan t
 ## Jawaban Tugas Kelompok
 
 1. Fungsi SOA dan Publish-Subscribe yang berbeda menjadi alasan kami memilih kombinasi ini untuk memenuhi kebutuhan FoodGo. SOA berfungsi untuk memisahkan fungsi utama FoodGo menjadi beberapa service yang bisa dikembangkan dan dideploy secara mandiri. Sedangkan Publish-service digunakan untuk komunikasi berbasis event secara asynchronous antar-servis. Kedua fungsi ini jika dikombinasikan memungkinan proses yang membutuhkan respon secara langung dapat menggunakan komunikasi langsung, sedangkat proses seperti notifikasi dapat melalui event secara asynchronous.
-2. 
+2. Sistem FoodGo terdiri dari beberapa komponen yang memiliki fungsi berbeda, yaitu:
+1.Pelanggan: Pengguna yang melakukan navigasi menu dan pemesanan.
+2.Modul Katalog Resto: Menyediakan informasi mengenai restoran dan daftar menu.
+3.Modul Pesanan: Membuat dan mengelola pesanan dari pelanggan.
+4.Modul Pembayaran: Menangani proses pembayaran dan verifikasi transaksi.
+5.Modul Resto: Menerima informasi pesanan untuk diproses oleh pihak restoran.
+6.Modul Kurir/Notifikasi: Menangani penugasan kurir serta penyampaian notifikasi.
+7.Message Broker: Berfungsi sebagai perantara dalam penyampaian event secara asinkron antar-modul menggunakan pola Publish-Subscribe.
+
+Diagram foodgo:  
+![Diagram FoodGo](<diagram/diagram foodgo.drawio.png>)  
+
 3. 
 4. 
 
