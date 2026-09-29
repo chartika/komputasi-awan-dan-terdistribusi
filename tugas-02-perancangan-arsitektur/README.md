@@ -35,7 +35,23 @@ Melanjutkan Tugas 1: FoodGo butuh sistem yang **decoupled** agar tim kurir dan t
     - Penerbitan Event: Service Pesanan mempublish event _OrderPaid_ setelah menerima konfirmasi bahwa pembayaran berhasil. Event ini dikirimkan ke _Message Broker_ menggunakan komunikasi asinkron (event).   
     - Menerima Event (Resto): Service Resto menerima (_subscribe_) event dari _Message Broker_ secara asinkron, sehingga pihak resto mengetahui bahwa pesanan telah dibayar dan siap diproses.   
     - Notifikasi & Kurir: Service Kurir/Notifikasi juga menerima (subscribe) event dari _Message Broker_ secara asinkron untuk memproses penugasan kurir serta pengiriman notifikasi.
-4. 
+4. Pada Tugas 1, FoodGo masih menggunakan satu aplikasi monolitik yang berisi beberapa fungsi sekaligus. Hal ini membuat perubahan pada satu bagian dapat ikut memengaruhi bagian lainnya. Dengan menggunakan SOA, fungsi FoodGo dipisahkan menjadi beberapa service seperti Service Pesanan, Service Pembayaran, Service Katalog Resto, Service Resto, dan Service Kurir/Notifikasi.
+
+Selain itu, Publish-Subscribe digunakan untuk proses yang tidak membutuhkan respons secara langsung. Contohnya setelah pembayaran berhasil, Service Pesanan mengirim event OrderPaid ke Message Broker. Event tersebut kemudian dapat diterima oleh Service Resto dan Service Kurir/Notifikasi. Dengan cara ini, Service Pesanan tidak perlu berhubungan langsung dengan kedua service tersebut untuk setiap proses. Jadi, masing-masing service memiliki tugasnya sendiri dan tidak terlalu bergantung pada service lain. Jika ada perubahan pada Service Katalog Resto atau Service Kurir/Notifikasi, service lain tidak harus ikut diubah atau di-deploy ulang. Hal ini membuat sistem FoodGo lebih decoupled dibandingkan arsitektur monolitik.
+
+Trade-off:
+  - Sistem menjadi lebih kompleks
+  Karena FoodGo memiliki beberapa service dan Message Broker, pengelolaannya menjadi lebih banyak dibandingkan ketika semua fungsi masih berada dalam satu aplikasi.
+
+  - Proses asynchronous membutuhkan waktu
+  Event yang dikirim melalui Message Broker tidak langsung diproses oleh service penerima pada saat yang sama. Misalnya, setelah pembayaran berhasil, Service Resto membutuhkan waktu untuk menerima dan memproses event `OrderPaid`.
+
+  - Lebih sulit mencari sumber masalah
+  Jika event `OrderPaid` tidak sampai atau tidak diproses dengan benar, perlu diperiksa dari Service Pesanan, Message Broker, sampai service yang menerima event tersebut. Jadi, proses mencari kesalahan bisa lebih panjang.
+
+  - Perlu menangani event yang gagal
+  Jika terjadi gangguan saat event diproses, FoodGo perlu memiliki mekanisme seperti *retry* atau penyimpanan pesan agar event tidak langsung hilang dan dapat diproses kembali.
+
 
 ## Cara Membuat Diagram (Gratis, Cukup Laptop)
 
