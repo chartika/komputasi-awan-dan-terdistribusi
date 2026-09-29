@@ -4,6 +4,7 @@
 - Opsi arsitektur yang dipertimbangkan: Service-Oriented Architecture (SOA) dan Publish-Subscribe
 - Kenapa akhirnya pilih [SOA/Pub-Sub]: kami akhirnya memutuskan memilih untuk menggunakan kedua arsitektur tersebut karana setiap modul memiliki kebutuhan yang berbeda-beda. SOA berfungsi untuk memisahkan fungsi utama FoodGo menjadi beberapa service yang bisa dikembangkan dan dideploy secara mandiri. Sedangkan Publish-service digunakan untuk komunikasi berbasis event secara asynchronous antar-servis.
 - Revisi diagram (versi 1 → versi 2, apa yang berubah dan kenapa): 
+
 Kondisi Lama (Versi 1):
 Seluruh komponen aplikasi FoodGo, yaitu pesanan, pembayaran, katalog resto, serta kurir/notifikasi, masih tergabung dalam satu aplikasi monolitik. Saat terjadi perubahan atau deployment pada satu bagian, bagian lainnya dapat ikut terdampak.
 
