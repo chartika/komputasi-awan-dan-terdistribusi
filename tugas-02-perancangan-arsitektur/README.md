@@ -27,13 +27,13 @@ flowchart TD
     R[Service Resto]
     N[Service Kurir/Notifikasi]
 
-    P -->|Lihat menu| K
-    P -->|Buat pesanan| O
-    O -->|Proses pembayaran| B
-    B -->|Status pembayaran berhasil| O
-    O -.->|Publish OrderPaid| MB
-    MB -.->|Subscribe OrderPaid| R
-    MB -.->|Subscribe OrderPaid| N
+    P -->|Lihat menu - Sinkron| K
+    P -->|Buat pesanan - Sinkron| O
+    O -->|Proses pembayaran - Sinkron| B
+    B -->|Status pembayaran - Sinkron| O
+    O -.->|Publish OrderPaid - Asinkron| MB
+    MB -.->|Subscribe OrderPaid - Asinkron| R
+    MB -.->|Subscribe OrderPaid - Asinkron| N
 ```
 3. 
 4. 
