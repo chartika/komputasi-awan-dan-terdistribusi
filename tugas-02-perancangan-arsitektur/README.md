@@ -13,6 +13,13 @@ Melanjutkan Tugas 1: FoodGo butuh sistem yang **decoupled** agar tim kurir dan t
 3. Jelaskan alur satu skenario penuh secara end-to-end di diagram (misalnya: pelanggan buat pesanan → bayar → resto terima notifikasi → kurir ditugaskan) — tunjukkan komponen mana berkomunikasi dengan siapa, dan **jenis komunikasinya** (sinkron/asinkron, request-response/event).
 4. Analisis tertulis: kenapa gaya ini mengatasi masalah *coupling* dari Tugas 1, dan apa trade-off-nya (mis. Pub-Sub menambah kompleksitas debugging karena alur tidak linear).
 
+## Jawaban Tugas Kelompok
+
+1. Fungsi SOA dan Publish-Subscribe yang berbeda menjadi alasan kami memilih kombinasi ini untuk memenuhi kebutuhan FoodGo. SOA berfungsi untuk memisahkan fungsi utama FoodGo menjadi beberapa service yang bisa dikembangkan dan dideploy secara mandiri. Sedangkan Publish-service digunakan untuk komunikasi berbasis event secara asynchronous antar-servis. Kedua fungsi ini jika dikombinasikan memungkinan proses yang membutuhkan respon secara langung dapat menggunakan komunikasi langsung, sedangkat proses seperti notifikasi dapat melalui event secara asynchronous.
+2. 
+3. 
+4. 
+
 ## Cara Membuat Diagram (Gratis, Cukup Laptop)
 
 Tidak perlu software berbayar. Dua opsi:
