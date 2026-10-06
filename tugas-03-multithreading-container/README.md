@@ -10,15 +10,15 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
 
 1. Implementasikan **simulasi pesanan masuk** di Python (`src/order_simulator.py`) yang memproses banyak pesanan **secara konkuren memakai multithreading** (bukan multiprocessing, bukan sekuensial biasa). 
 Jawab:
-   - Program dibuat untuk mensimulasikan pemrosesan 100 pesanan menggunakan 10 worker thread, sesuai dengan nilai NUM_ORDERS = 100 dan NUM_WORKERS = 10 pada program.
-   - Daftar pesanan dibuat menggunakan list(range(1, NUM_ORDERS + 1)), sehingga program menghasilkan nomor pesanan mulai dari 1 sampai 100.
+   - Program dibuat untuk mensimulasikan pemrosesan 100 pesanan menggunakan 10 worker thread, sesuai dengan nilai `NUM_ORDERS = 100` dan `NUM_WORKERS = 10` pada program.
+   - Daftar pesanan dibuat menggunakan list(`range(1, NUM_ORDERS + 1)`), sehingga program menghasilkan nomor pesanan mulai dari 1 sampai 100.
    - Pesanan kemudian dibagi menjadi 10 bagian menggunakan chunk_size, sehingga setiap worker mendapatkan bagian pesanan yang berbeda untuk diproses.
-   - Setiap bagian pesanan dijalankan menggunakan threading.Thread() dengan fungsi worker() sebagai tugas yang akan dijalankan oleh thread tersebut.
-   - Seluruh thread dijalankan menggunakan start() sehingga beberapa bagian pesanan dapat diproses secara konkuren.
-   - Setelah semua thread dijalankan, join() digunakan untuk menunggu seluruh thread menyelesaikan tugasnya sebelum program menampilkan jumlah pesanan yang berhasil diproses.
-   - Fungsi worker() menjalankan process_order() untuk setiap pesanan yang sudah diberikan kepada worker, sehingga seluruh pesanan dapat diproses melalui thread yang telah dibuat.
+   - Setiap bagian pesanan dijalankan menggunakan threading.`Thread()` dengan fungsi `worker()` sebagai tugas yang akan dijalankan oleh thread tersebut.
+   - Seluruh thread dijalankan menggunakan `start()` sehingga beberapa bagian pesanan dapat diproses secara konkuren.
+   - Setelah semua thread dijalankan, `join()` digunakan untuk menunggu seluruh thread menyelesaikan tugasnya sebelum program menampilkan jumlah pesanan yang berhasil diproses.
+   - Fungsi `worker()` menjalankan `process_order()` untuk setiap pesanan yang sudah diberikan kepada worker, sehingga seluruh pesanan dapat diproses melalui thread yang telah dibuat.
 
-Multithreading dipilih karena FoodGo perlu menangani banyak pesanan yang bisa masuk dalam waktu yang sama. Pada kondisi awal, setiap pesanan diproses dengan membuat proses OS baru sehingga semakin banyak pesanan yang masuk, semakin besar pula memori dan sumber daya server yang digunakan. Hal ini dapat membuat server menjadi boros sumber daya dan berisiko kehabisan memori. Dengan multithreading, beberapa pesanan dapat dikerjakan secara bersamaan dalam satu proses tanpa harus membuat proses baru untuk setiap pesanan. Cara ini lebih sesuai untuk mengatasi masalah penggunaan sumber daya pada studi kasus FoodGo. Implementasinya dapat dilihat dari penggunaan threading.Thread(), start(), dan join() pada program.
+Multithreading dipilih karena FoodGo perlu menangani banyak pesanan yang bisa masuk dalam waktu yang sama. Pada kondisi awal, setiap pesanan diproses dengan membuat proses OS baru sehingga semakin banyak pesanan yang masuk, semakin besar pula memori dan sumber daya server yang digunakan. Hal ini dapat membuat server menjadi boros sumber daya dan berisiko kehabisan memori. Dengan multithreading, beberapa pesanan dapat dikerjakan secara bersamaan dalam satu proses tanpa harus membuat proses baru untuk setiap pesanan. Cara ini lebih sesuai untuk mengatasi masalah penggunaan sumber daya pada studi kasus FoodGo. Implementasinya dapat dilihat dari penggunaan threading.`Thread(), start(),` dan `join()` pada program.
 
 2. Program harus mensimulasikan **race condition yang sengaja dibuat lalu diperbaiki** — buktikan pemahaman kalian tentang `Lock`/sinkronisasi dengan cara:
    - Jalankan dulu versi TANPA lock, tunjukkan hasil counter yang salah (screenshot/log).
