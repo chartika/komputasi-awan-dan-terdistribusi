@@ -79,19 +79,19 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
 
          docker build -t foodgo-order-sim .
 
-         - Perintah ini digunakan untuk membuat Docker image dari Dockerfile yang sudah dibuat. Image tersebut diberi nama foodgo-order-sim.
+      - Perintah ini digunakan untuk membuat Docker image dari Dockerfile yang sudah dibuat. Image tersebut diberi nama foodgo-order-sim.
 
       B. Menjalankan container
 
          docker run --rm foodgo-order-sim
 
-         - Perintah ini digunakan untuk menjalankan program dari image foodgo-order-sim di dalam container. Opsi --rm digunakan agar container yang sudah selesai langsung dihapus.
+      - Perintah ini digunakan untuk menjalankan program dari image foodgo-order-sim di dalam container. Opsi --rm digunakan agar container yang sudah selesai langsung dihapus.
 
       C. Hasilnya:
 
          Total pesanan diproses: 100 (seharusnya 100)
 
-         - Hasil tersebut menunjukkan bahwa program berhasil dijalankan di dalam container dan 100 pesanan berhasil diproses sesuai dengan jumlah pesanan yang ditentukan.
+      - Hasil tersebut menunjukkan bahwa program berhasil dijalankan di dalam container dan 100 pesanan berhasil diproses sesuai dengan jumlah pesanan yang ditentukan.
 
 ## Skeleton yang Disediakan
 
