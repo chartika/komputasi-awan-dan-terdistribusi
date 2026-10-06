@@ -43,8 +43,53 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
       C. Hasil percobaan tanpa Lock dan dengan Lock akan dibandingkan lebih lanjut pada JURNAL.md.
 
 3. Paketkan program ke dalam **Docker container** (`Dockerfile` disediakan skeleton-nya, lengkapi bagian yang kosong).
-4. Jalankan container di laptop, buktikan program tetap berjalan benar di dalam container (screenshot/video di `bukti/`).
+   **Jawaban:**
+      A. Bukti dockerfile
+         ```bash
+         FROM python:3.13-slim 
+         
+         WORKDIR /app 
+         
+         COPY requirements.txt . 
+         RUN pip install --no-cache-dir -r requirements.txt 
+         
+         COPY src/ ./src/ 
+         
+         CMD ["python3", "src/order_simulator.py"]
+         ```
+      
+      B. Penjelasan bukti dockerfile
+         1. Penggunaan image Python
+            python:3.13-slim digunakan sebagai dasar container karena sudah menyediakan Python yang dibutuhkan untuk menjalankan program. Versi slim dipilih agar image yang digunakan tidak terlalu besar dan hanya membawa komponen yang diperlukan.
+         2. Menentukan folder kerja
+            WORKDIR /app digunakan untuk menentukan lokasi kerja program di dalam container. Dengan adanya folder ini, perintah berikutnya seperti menyalin file dan menjalankan program akan menggunakan /app sebagai direktori utama.
+         3. Menyiapkan dependency
+            File requirements.txt disalin terlebih dahulu ke dalam container. Setelah itu, dependency di-install menggunakan pip. Peletakan bagian ini sebelum COPY src/ juga membuat proses build lebih efisien ketika hanya terdapat perubahan pada kode program, karena bagian instalasi dependency dapat menggunakan cache Docker.
+         4. Memasukkan source code
+            COPY src/ ./src/ digunakan untuk memasukkan folder src dari project ke dalam container. Dengan begitu, file order_simulator.py yang berada di dalam folder tersebut tersedia dan dapat dijalankan dari dalam container.
+         5. Menentukan program yang dijalankan
+            CMD ["python3", "src/order_simulator.py"] digunakan untuk menentukan perintah utama ketika container dijalankan. Jadi, saat docker run dilakukan, container akan langsung menjalankan program simulasi pesanan menggunakan Python tanpa perlu memasukkan perintah tambahan.
 
+4. Jalankan container di laptop, buktikan program tetap berjalan benar di dalam container (screenshot/video di `bukti/`).
+   **Jawaban:**
+      A. Build image
+         ``` bash
+         docker build -t foodgo-order-sim .
+         ```
+         - Perintah ini digunakan untuk membuat Docker image dari Dockerfile yang sudah dibuat. Image tersebut diberi nama foodgo-order-sim.
+
+      B. Menjalankan container
+         ``` bash
+         docker run --rm foodgo-order-sim
+         ```
+         - Perintah ini digunakan untuk menjalankan program dari image foodgo-order-sim di dalam container. Opsi --rm digunakan agar container yang sudah selesai langsung dihapus.
+
+      C. Hasilnya:
+         ``` bash
+         Total pesanan diproses: 100 (seharusnya 100)
+         ```
+         - Hasil tersebut menunjukkan bahwa program berhasil dijalankan di dalam container dan 100 pesanan berhasil diproses sesuai dengan jumlah pesanan yang ditentukan.
+         
 ## Skeleton yang Disediakan
 
 - `src/order_simulator.py` — kerangka program dengan `# TODO` di bagian logika inti (worker function, penggunaan lock, agregasi hasil). **Kalian wajib mengisi bagian TODO sendiri** — ini bagian penilaian utama.
