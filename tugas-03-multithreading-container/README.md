@@ -8,7 +8,7 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
 
 ## Tugas Kelompok
 
-1. Implementasikan **simulasi pesanan masuk** di Python (`src/order_simulator.py`) yang memproses banyak pesanan **secara konkuren memakai multithreading** (bukan multiprocessing, bukan sekuensial biasa).
+1. Implementasikan **simulasi pesanan masuk** di Python (`src/order_simulator.py`) yang memproses banyak pesanan **secara konkuren memakai multithreading** (bukan multiprocessing, bukan sekuensial biasa). 
 Jawab:
    - Program dibuat untuk mensimulasikan pemrosesan 100 pesanan menggunakan 10 worker thread, sesuai dengan nilai NUM_ORDERS = 100 dan NUM_WORKERS = 10 pada program.
    - Daftar pesanan dibuat menggunakan list(range(1, NUM_ORDERS + 1)), sehingga program menghasilkan nomor pesanan mulai dari 1 sampai 100.
