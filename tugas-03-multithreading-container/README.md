@@ -43,9 +43,10 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
       C. Hasil percobaan tanpa Lock dan dengan Lock akan dibandingkan lebih lanjut pada JURNAL.md.
 
 3. Paketkan program ke dalam **Docker container** (`Dockerfile` disediakan skeleton-nya, lengkapi bagian yang kosong).
+   
    **Jawaban:**
+
       A. Bukti dockerfile
-         ```bash
          FROM python:3.13-slim 
          
          WORKDIR /app 
@@ -56,9 +57,9 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
          COPY src/ ./src/ 
          
          CMD ["python3", "src/order_simulator.py"]
-          ```
       
       B. Penjelasan bukti dockerfile
+      
          - Penggunaan image Python
             python:3.13-slim digunakan sebagai dasar container karena sudah menyediakan Python yang dibutuhkan untuk menjalankan program. Versi slim dipilih agar image yang digunakan tidak terlalu besar dan hanya membawa komponen yang diperlukan.
          - Menentukan folder kerja
@@ -71,7 +72,9 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
             CMD ["python3", "src/order_simulator.py"] digunakan untuk menentukan perintah utama ketika container dijalankan. Jadi, saat docker run dilakukan, container akan langsung menjalankan program simulasi pesanan menggunakan Python tanpa perlu memasukkan perintah tambahan.
 
 4. Jalankan container di laptop, buktikan program tetap berjalan benar di dalam container (screenshot/video di `bukti/`).
+   
    **Jawaban:**
+      
       A. Build image
 
          ``` bash
@@ -88,7 +91,6 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
          ```
 
          - Perintah ini digunakan untuk menjalankan program dari image foodgo-order-sim di dalam container. Opsi --rm digunakan agar container yang sudah selesai langsung dihapus.
-
 
       C. Hasilnya:
 
