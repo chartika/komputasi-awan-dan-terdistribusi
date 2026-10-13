@@ -51,7 +51,7 @@ Dashboard manajemen RabbitMQ (untuk lihat antrean secara visual) otomatis aktif 
 ## Jawaban Kelompok:
 3. Pengujian dilakukan dengan menghentikan consumer dan menjalankan publisher sebanyak dua kali untuk mengirimkan enam event pembayaran. Setelah consumer diaktifkan kembali, seluruh pesan berhasil diterima dan diproses. Hasil tersebut membuktikan bahwa RabbitMQ dapat menyimpan pesan dalam antrean selama consumer tidak aktif dan pesan tetap tersedia untuk diproses ketika consumer kembali berjalan.
 
-![Bukti hasil uji pesan tidak hilang](bukti/B_mq_asynchronous.jpeg)
+    ![Bukti hasil uji pesan tidak hilang](bukti/B_mq_asynchronous.jpeg)
 
 ## Struktur Submission
 
