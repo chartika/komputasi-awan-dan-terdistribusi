@@ -1,14 +1,14 @@
 # Jurnal Proses — Tugas 4
 
 ## Jalur yang dipilih
-- [RPC / MQ / keduanya], alasan: ...
+- MQ, alasan: notifikasi ke Kurir tidak butuh respons langsung, jadi lebih cocok asinkron. Dengan RabbitMQ, modul Pembayaran cukup mengirim pesan tanpa menunggu modul Kurir, jadi transaksi tetap cepat dan pesan tidak hilang walaupun Kurir sedang mati.
 
 ## Kendala teknis
-- Error saat setup (mis. koneksi RabbitMQ ditolak, port bentrok): ...
+- Error saat setup (mis. koneksi RabbitMQ ditolak, port bentrok): -
 
 ## Uji "pesan tidak hilang" (khusus Jalur B)
 - Langkah uji: matikan consumer → jalankan publisher → nyalakan consumer
-- Hasil yang diamati: ...
+- Hasil yang diamati: Awalnya consumer menyala dan menerima 3 event (user1, user2, user3) secara langsung. Setelah itu consumer dimatikan dengan Ctrl+C, lalu publisher dijalankan 2 kali sehingga ada 6 event yang terkirim saat tidak ada consumer aktif. Ketika consumer dinyalakan lagi, ke-6 event tersebut langsung diterima dan diproses secara berurutan (user1, user2, user3, lalu user1, user2, user3 lagi) dengan jumlah dan nominal yang sama seperti yang dikirim publisher. Artinya tidak ada pesan yang hilang meskipun consumer sedang mati, karena pesan tetap tersimpan di antrean 'pembayaran_berhasil' sampai consumer aktif kembali.
 
 ## Log Penggunaan AI (Level 2)
 
