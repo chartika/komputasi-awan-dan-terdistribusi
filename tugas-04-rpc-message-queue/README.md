@@ -49,7 +49,7 @@ Dashboard manajemen RabbitMQ (untuk lihat antrean secara visual) otomatis aktif 
 4. Tulis analisis: kenapa jalur ini (RPC atau MQ) cocok untuk skenario yang kalian pilih, dan apa yang terjadi jika dipakai untuk skenario yang salah (mis. RPC dipakai untuk notifikasi kurir → modul pembayaran ikut lambat kalau kurir down).
 
 ## Jawaban Kelompok:
-3. ![Hasil uji pesan tidak hilang](bukti/B_mq_asynchronous.png)
+3. ![Bukti hasil uji pesan tidak hilang](bukti/B_mq_asynchronous.jpeg)
 Pengujian dilakukan dengan menghentikan consumer dan menjalankan publisher sebanyak dua kali untuk mengirimkan enam event pembayaran. Setelah consumer diaktifkan kembali, seluruh pesan berhasil diterima dan diproses. Hasil tersebut membuktikan bahwa RabbitMQ dapat menyimpan pesan dalam antrean selama consumer tidak aktif dan pesan tetap tersedia untuk diproses ketika consumer kembali berjalan.
 
 ## Struktur Submission
