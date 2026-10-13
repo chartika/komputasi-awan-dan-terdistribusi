@@ -16,4 +16,4 @@
 
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
 |---|---|---|---|---|
-| ... | ... | ... | ... | ... |
+| 13-10-2026 | Chat GPT | Apa keunggulan jalur a dan b | Pilih RPC jika proses membutuhkan jawaban langsung, seperti pengecekan saldo sebelum pembayaran, pilih Message Queue jika proses bisa dilakukan belakangan dan tidak boleh menghambat modul pengirim, seperti notifikasi pembayaran kepada kurir.| - |
