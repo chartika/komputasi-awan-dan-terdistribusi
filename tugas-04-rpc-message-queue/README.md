@@ -53,6 +53,10 @@ Dashboard manajemen RabbitMQ (untuk lihat antrean secara visual) otomatis aktif 
 
     ![Bukti hasil uji pesan tidak hilang](bukti/B_mq_asynchronous.jpeg)
 
+
+4. Kami memilih Message Queue (MQ) karena komunikasi antara modul Pembayaran dan modul Kurir di FoodGo lebih cocok dibuat asinkron. Dengan RabbitMQ, setelah pembayaran berhasil, modul Pembayaran cukup mengirim pesan ke antrean tanpa menunggu modul Kurir selesai memproses, jadi transaksi pelanggan tetap cepat walaupun modul Kurir lagi sibuk atau mati. Supaya pesan tidak hilang, antrean dibuat *durable*, pesan dibuat *persistent*, dan consumer memakai *manual acknowledgement*, sehingga pesan yang tertunda tetap diproses begitu modul Kurir aktif lagi. Kalau pakai RPC, modul Pembayaran harus menunggu balasan sehingga kedua modul saling bergantung, dan gangguan di modul Kurir bisa bikin pembayaran ikut lambat atau gagal. Memang MQ punya kekurangan, yaitu konsistensi data yang baru tercapai setelah beberapa saat dan pesan bisa terkirim lebih dari sekali (jadi consumer harus idempoten), tapi untuk notifikasi yang tidak butuh respons langsung, MQ tetap lebih pas, sedangkan RPC lebih cocok untuk operasi seperti pengecekan saldo yang hasilnya dibutuhkan saat itu juga.
+
+
 ## Struktur Submission
 
 ```
