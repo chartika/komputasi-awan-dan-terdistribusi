@@ -42,7 +42,6 @@ Sistem FoodGo membutuhkan leader karena setiap server bisa memiliki waktu yang b
 
 2. Analisis Mengapa Menggunakan Trade-off Bully Dibandingkan Raft?
 Bully Algorithm dipilih karena cara kerjanya sederhana dan mudah diterapkan pada lima node yang berjalan sebagai proses Python terpisah. Algoritma ini menentukan leader berdasarkan ID node, sehingga node dengan ID tertinggi yang masih aktif akan menjadi leader. Proses pemilihan dimulai ketika sebuah node baru dijalankan atau mendeteksi bahwa leader tidak merespons. Setelah itu, node tersebut mengirim pesan ELECTION kepada node dengan ID lebih tinggi. Jika ada node yang merespons dengan pesan OK, proses pemilihan akan dilanjutkan oleh node dengan ID lebih tinggi tersebut. Namun, jika tidak ada node dengan ID lebih tinggi yang merespons dalam batas waktu tertentu, node yang memulai pemilihan akan menjadi leader dan mengirim pesan COORDINATOR kepada node lainnya.
-
 Sementara itu, Raft memiliki mekanisme yang lebih kompleks karena menggunakan masa pemilihan (term), komunikasi antarnode, dan kesepakatan mayoritas untuk memilih leader serta menjaga konsistensi data. Oleh karena itu, Bully Algorithm lebih cocok untuk simulasi pada tugas ini karena lebih mudah dipahami dan diterapkan. Meskipun begitu, Raft memiliki mekanisme konsensus yang lebih lengkap untuk menjaga konsistensi data dalam sistem terdistribusi.
 
 3. Analisis Hasil Pengujian
