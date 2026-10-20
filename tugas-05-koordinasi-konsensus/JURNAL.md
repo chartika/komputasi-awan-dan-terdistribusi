@@ -9,9 +9,8 @@
 
 ## Skenario 2: Leader dimatikan
 - Leader baru yang terpilih: Node 4 (port 5004).
-- Berapa lama waktu sampai leader baru terdeteksi: Waktu yang dibutuhkan belum bisa dihitung secara pasti karena screenshot tidak menampilkan timestamp saat Node 5 dimatikan dan saat Node 4 menjadi leader baru.
-
-Pada pengujian kedua, Node 5 dihentikan menggunakan Ctrl+C, yang ditandai dengan munculnya KeyboardInterrupt pada terminal. Setelah itu, Node 4 menjalankan proses pemilihan leader dan menampilkan log broadcast COORDINATOR, saya jadi leader. Hasil ini menunjukkan bahwa Node 4 mengambil alih posisi leader setelah Node 5 berhenti. Hal tersebut sesuai dengan aturan Bully Algorithm, yaitu node dengan ID tertinggi yang masih aktif akan menjadi leader baru.
+- Berapa lama waktu sampai leader baru terdeteksi: Sekitar 2,29 detik berdasarkan angka yang terlihat pada stopwatch saat pengujian.
+Pada pengujian kedua, Node 5 dihentikan menggunakan Ctrl+C, yang ditandai dengan munculnya KeyboardInterrupt pada terminal. Setelah itu, Node 4 menjalankan proses pemilihan leader dan menampilkan pesan broadcast COORDINATOR, saya jadi leader. Node 1, Node 2, dan Node 3 juga terlihat menerima pesan COORDINATOR dari Node 4. Hal ini menunjukkan bahwa Node 4 mengambil alih posisi leader setelah Node 5 dihentikan. Waktu 2,29 detik merupakan angka yang terlihat pada stopwatch; angka tersebut menggambarkan waktu pergantian leader apabila stopwatch memang dimulai saat Node 5 dihentikan dan dihentikan saat Node 4 mengumumkan dirinya sebagai leader baru.
 
 ## Log Penggunaan AI (Level 2)
 
