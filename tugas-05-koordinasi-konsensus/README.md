@@ -54,7 +54,6 @@ Skenario 2: Leader Mati
 
 ![Bukti Skenario 2 - Leader Mati](bukti/skenario_2.jpeg)
 
-
 ## Struktur Submission
 
 ```
