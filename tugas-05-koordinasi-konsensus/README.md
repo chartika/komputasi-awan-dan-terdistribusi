@@ -36,6 +36,25 @@ python3 src/node.py --id 5 --port 5005 --peers 5001,5002,5003,5004
 2. **Leader mati**: matikan (Ctrl+C) proses node leader (node 5), amati node lain mendeteksi leader hilang dan memicu election baru. Catat leader baru yang terpilih (harusnya node 4).
 3. Simpan log terminal (screenshot atau `> log_nodeX.txt` redirect) dari kedua skenario ke folder `bukti/`.
 
+### JAWABAN KELOMPOK
+1. Mengapa Perlu Leader?
+Sistem FoodGo membutuhkan leader karena setiap server bisa memiliki waktu yang berbeda, sehingga urutan pesanan yang tercatat bisa tidak sama. Kondisi tersebut dapat menyebabkan konflik urutan dan pesanan diproses lebih dari satu kali. Dengan adanya leader, koordinasi antarserver dapat dilakukan dengan lebih teratur. Jika leader mati, node lain dapat memilih leader baru agar koordinasi sistem tetap berjalan.
+
+2. Analisis Mengapa Menggunakan Trade-off Bully Dibandingkan Raft?
+Bully Algorithm dipilih karena cara kerjanya sederhana dan mudah diterapkan pada lima node yang berjalan sebagai proses Python terpisah. Algoritma ini menentukan leader berdasarkan ID node, sehingga node dengan ID tertinggi yang masih aktif akan menjadi leader. Proses pemilihan dimulai ketika sebuah node baru dijalankan atau mendeteksi bahwa leader tidak merespons. Setelah itu, node tersebut mengirim pesan ELECTION kepada node dengan ID lebih tinggi. Jika ada node yang merespons dengan pesan OK, proses pemilihan akan dilanjutkan oleh node dengan ID lebih tinggi tersebut. Namun, jika tidak ada node dengan ID lebih tinggi yang merespons dalam batas waktu tertentu, node yang memulai pemilihan akan menjadi leader dan mengirim pesan COORDINATOR kepada node lainnya.
+
+Sementara itu, Raft memiliki mekanisme yang lebih kompleks karena menggunakan masa pemilihan (term), komunikasi antarnode, dan kesepakatan mayoritas untuk memilih leader serta menjaga konsistensi data. Oleh karena itu, Bully Algorithm lebih cocok untuk simulasi pada tugas ini karena lebih mudah dipahami dan diterapkan. Meskipun begitu, Raft memiliki mekanisme konsensus yang lebih lengkap untuk menjaga konsistensi data dalam sistem terdistribusi.
+
+3. Analisis Hasil Pengujian
+Skenario 1: Start Normal
+
+![Bukti Skenario 1 - Start Normal](bukti/skenario_1.jpeg)
+
+Skenario 2: Leader Mati
+
+![Bukti Skenario 2 - Leader Mati](bukti/skenario_2.jpeg)
+
+
 ## Struktur Submission
 
 ```
