@@ -14,4 +14,4 @@
 
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
 |---|---|---|---|---|
-| ... | ... | ... | ... | ... |
+| 03/11/2026 | ChatGPT | Apa yang terjadi pada mapping ketika node baru bergabung atau keluar dari ring? | Penjelasan mengenai perubahan tanggung jawab mapping ketika terjadi perubahan topologi. | Digunakan sebagai referensi untuk menentukan skenario pengujian join dan leave. |
