@@ -32,15 +32,15 @@ python3 src/chord_simulation.py
 
 ## Jawaban Analisis Kelompok
 2. Diagram 1: Sebelum Join
-![Diagram Ring Awal](<diagram/Diagram_ring_awal (sebelum Join).png>)
+![Diagram Ring Awal](bukti/Diagram_ring_awal%20(sebelum%20Join).png)
 Pada diagram pertama, ring terdiri dari empat node, yaitu node 40 (Bandung), node 102 (Jakarta-2), node 136 (Surabaya), dan node 177 (Jakarta-1). Setiap kurir akan diarahkan ke node successor berdasarkan nilai hash masing-masing.
 
 Diagram 2: Setelah Join
-![Diagram Setelah Join](diagram/Diagram_setelah_Join.png)
+![Diagram Setelah Join](bukti/Diagram_setelah_Join.png)
 Kemudian, pada diagram kedua, terjadi proses join, yaitu bergabungnya node 123 (Medan) ke dalam ring. setelah node tersebut bergabung, urutan ring berubah menjadi 40 → 102 → 123 → 136 → 177 → 40. perubahan ini menyebabkan kurir-012 dengan hash 116 berpindah tanggung jawab dari Node 136 ke Node 123
 
 Diagram 3: Setelah Leave
-![Diagram Setelah Leave](diagram/Diagram_setelah_leave.png)
+![Diagram Setelah Leave](bukti/Diagram_setelah_leave.png)
 Selanjutnya, pada diagram ketiga, terjadi proses leave, yaitu keluarnya node 102 (Jakarta-2) dari ring. setelah node tersebut keluar, urutan ring berubah menjadi 40 → 123 → 136 → 177 → 40. akibatnya, tanggung jawab kurir-001 dengan hash 50 yang sebelumnya berada di node 102 berpindah ke node 123
 
 3. Dalam simulasi ini, node-jakarta-2 dengan ID hash 102 dikonfigurasikan keluar dari ring. Sebelumnya, data kurir-001 (ID hash 50) dikelola oleh node 102 karena posisinya sebagai successor dari kunci kurir tersebut. Pasca keluarnya node 102, mekanisme Chord menetapkan successor baru berdasarkan aturan ID hash terdekat yang lebih besar atau sama, sehingga node-medan-1 (ID hash 123) mengambil alih tanggung jawab penyimpanan kurir-001. Akibatnya, data pemetaan dipindahkan dari node 102 ke node 123, sementara alamat IP kurir (192.168.1.10) tidak mengalami perubahan karena modifikasi hanya berdampak pada node pengelolanya. Di sisi lain, pemetaan kurir-002 tidak terpengaruh dan tetap berada di bawah tanggung jawab node Bandung (ID hash 40) karena statusnya sebagai successor yang valid.
