@@ -47,6 +47,10 @@ Terdapat 3 pendekatan yang dapat digunakan, yaitu:
         Ketika alamat IP kurir berubah, sistem dapat memperbaruimapping ID Kurir dengan alamat IP terbaru pada node yang bertanggunga jawab. ID Kurir tetap digunakan sebagai identitas sehingga perubahan alamat IP tidak mengharuskan sistem mengganti identitas kurir.
         Selain itu, Chord mendukung mekanisme node join dan leave. Ketika node baru bergabung atau node lama keluar, tanggung jawab penyimpanan mapping dapat dialihkan kepada node lain berdasarkan aturan succesor. Dengan demikian, hanya data yang terdampak perubahan topologi yang perlu dipindahkan.
 
+2. Diagram 1: Sebelum Join
+![Diagram Ring Awal](bukti/Diagram_ring_awal%20(sebelum%20Join).png)
+Pada diagram pertama, ring terdiri dari empat node, yaitu node 40 (Bandung), node 102 (Jakarta-2), node 136 (Surabaya), dan node 177 (Jakarta-1). Setiap kurir akan diarahkan ke node successor berdasarkan nilai hash masing-masing.
+
 Diagram 2: Setelah Join
 ![Diagram Setelah Join](bukti/Diagram_setelah_Join.png)
 Kemudian, pada diagram kedua, terjadi proses join, yaitu bergabungnya node 123 (Medan) ke dalam ring. setelah node tersebut bergabung, urutan ring berubah menjadi 40 → 102 → 123 → 136 → 177 → 40. perubahan ini menyebabkan kurir-012 dengan hash 116 berpindah tanggung jawab dari Node 136 ke Node 123
