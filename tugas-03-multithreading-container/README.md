@@ -60,6 +60,7 @@ Server FoodGo boros sumber daya karena setiap permintaan pesanan masuk diproses 
       
       B. Penjelasan bukti dockerfile
       
+      
          - Penggunaan image Python
             python:3.13-slim digunakan sebagai dasar container karena sudah menyediakan Python yang dibutuhkan untuk menjalankan program. Versi slim dipilih agar image yang digunakan tidak terlalu besar dan hanya membawa komponen yang diperlukan.
          - Menentukan folder kerja

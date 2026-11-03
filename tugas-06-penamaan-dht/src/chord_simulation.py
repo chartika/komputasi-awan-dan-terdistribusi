@@ -25,6 +25,12 @@ class ChordRing:
         # key kurir (hasil hash) -> IP kurir yang disimpan node yang bertanggung jawab
         self.data: dict[int, tuple[str, str]] = {}  # hash -> (kurir_id, ip_kurir)
 
+        # Penyimpanan mapping kurir pada masing-masing node
+        self.node_data: dict[int, dict[int, tuple[str, str]]] = {}
+
+        # Catatan node yang bertanggung jawab atas setiap mapping
+        self.owners: dict[int, int] = {}
+
     def join(self, node_name: str, node_ip: str):
         """Tambahkan node baru ke ring. Pindahkan data yang seharusnya
         menjadi tanggung jawab node baru ini dari successor lamanya."""
@@ -44,28 +50,37 @@ class ChordRing:
             print(f"Node '{node_name}' sudah terdaftar.")
             return
 
+        # Simpan pemilik lama sebelum node baru ditambahkan.
         old_owners = {}
 
         for key_hash in self.data:
             if self.nodes:
                 old_owners[key_hash] = self.find_successor(key_hash)
 
+        # Tambahkan node baru dan siapkan penyimpanannya.
         self.nodes[node_id] = node_ip
+        self.node_data[node_id] = {}
 
         print(
             f"Node '{node_name}' (id={node_id}) "
             f"bergabung, alamat {node_ip}"
         )
 
+        # Periksa apakah ada mapping yang sekarang menjadi tanggung jawab node baru.
         for key_hash, (kurir_id, ip_kurir) in self.data.items():
             new_owner = self.find_successor(key_hash)
             old_owner = old_owners.get(key_hash)
 
             if old_owner is not None and old_owner != new_owner:
+                # Pindahkan data dari penyimpanan node lama ke node baru.
+                data_kurir = self.node_data[old_owner].pop(key_hash)
+                self.node_data[new_owner][key_hash] = data_kurir
+                self.owners[key_hash] = new_owner
+
                 print(
                     f"  Mapping {kurir_id} ({ip_kurir}) "
-                    f"berpindah tanggung jawab dari node "
-                    f"{old_owner} ke node {new_owner}"
+                    f"berpindah dari node {old_owner} "
+                    f"ke node {new_owner} ({self.nodes[new_owner]})"
                 )
 
     def leave(self, node_name: str):
@@ -81,13 +96,12 @@ class ChordRing:
             print(f"Node '{node_name}' tidak ditemukan.")
             return
 
-        affected_data = []
+        # Catat semua mapping yang sebelumnya dimiliki node yang akan keluar.
+        affected_data = list(self.node_data[node_id].items())
 
-        for key_hash, (kurir_id, ip_kurir) in self.data.items():
-            if self.find_successor(key_hash) == node_id:
-                affected_data.append((key_hash, kurir_id, ip_kurir))
-
+        # Hapus node dan penyimpanan miliknya.
         del self.nodes[node_id]
+        del self.node_data[node_id]
 
         print(
             f"Node '{node_name}' (id={node_id}) "
@@ -95,12 +109,22 @@ class ChordRing:
         )
 
         if not self.nodes:
+            for key_hash, _ in affected_data:
+                self.owners.pop(key_hash, None)
+
             if affected_data:
                 print("Ring kosong. Data tidak dapat dipindahkan.")
             return
 
-        for key_hash, kurir_id, ip_kurir in affected_data:
+        # Pindahkan mapping ke successor baru.
+        for key_hash, (kurir_id, ip_kurir) in affected_data:
             new_owner = self.find_successor(key_hash)
+
+            self.node_data[new_owner][key_hash] = (
+                kurir_id,
+                ip_kurir
+            )
+            self.owners[key_hash] = new_owner
 
             print(
                 f"  Mapping {kurir_id} ({ip_kurir}) "
@@ -133,7 +157,17 @@ class ChordRing:
         # penanggung jawab, lalu simpan (kurir_id, ip_kurir) ke self.data[key_hash].
 
         node_id = self.find_successor(key_hash)
+
+        # Jika kurir sudah terdaftar, hapus mapping lama dari node sebelumnya.
+        old_owner = self.owners.get(key_hash)
+
+        if old_owner is not None and old_owner in self.node_data:
+            self.node_data[old_owner].pop(key_hash, None)
+
+        # Simpan mapping pada data global dan penyimpanan node penanggung jawab.
         self.data[key_hash] = (kurir_id, ip_kurir)
+        self.node_data[node_id][key_hash] = (kurir_id, ip_kurir)
+        self.owners[key_hash] = node_id
 
         print(
             f"Kurir {kurir_id} ({ip_kurir}) "
@@ -151,8 +185,11 @@ class ChordRing:
             print("[LOOKUP] Ring kosong")
             return None
 
+        # Tentukan node penanggung jawab berdasarkan aturan successor.
         node_id = self.find_successor(key_hash)
-        data_kurir = self.data.get(key_hash)
+
+        # Ambil data langsung dari penyimpanan node penanggung jawab.
+        data_kurir = self.node_data[node_id].get(key_hash)
 
         if data_kurir is not None and data_kurir[0] == kurir_id:
             print(
@@ -179,18 +216,26 @@ def main():
     ring.register_kurir("kurir-002", "192.168.1.11")
     ring.register_kurir("kurir-003", "192.168.1.12")
 
+    # Kurir tambahan untuk menguji perpindahan mapping saat join
+    ring.register_kurir("kurir-012", "192.168.1.13")
+
     print("\n--- Lookup sebelum perubahan topologi ---")
     print("kurir-001 ->", ring.lookup("kurir-001"))
     print("kurir-002 ->", ring.lookup("kurir-002"))
 
     print("\n--- Node baru bergabung ---")
     ring.join("node-medan-1", "10.0.0.5")
-    print("kurir-001 ->", ring.lookup("kurir-001"))
+    print("kurir-012 ->", ring.lookup("kurir-012"))
 
     print("\n--- Sebuah node keluar ---")
     ring.leave("node-jakarta-2")
     print("kurir-001 ->", ring.lookup("kurir-001"))
     print("kurir-002 ->", ring.lookup("kurir-002"))
+
+    # Pengujian perubahan IP kurir
+    print("\n--- Pengujian Perubahan IP Kurir ---")
+    ring.register_kurir("kurir-001", "192.168.1.99")
+    print("IP terbaru:", ring.lookup("kurir-001"))
 
 
 if __name__ == "__main__":
