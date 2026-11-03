@@ -35,6 +35,7 @@ python3 src/chord_simulation.py
 
 ![Bukti Output Program](bukti/output_program_node_keluar_ring.png)
 
+Berdasarkan hasil simulasi, mekanisme leave() berhasil memindahkan mapping dari node yang keluar ke successor baru. Hal ini menunjukkan bahwa pembagian tanggung jawab dalam Chord DHT dapat menyesuaikan perubahan topologi tanpa mengubah informasi alamat IP kurir.
 ## Struktur Submission
 
 ```
