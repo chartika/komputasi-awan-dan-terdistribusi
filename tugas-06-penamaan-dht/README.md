@@ -37,21 +37,20 @@ Terdapat 3 pendekatan yang dapat digunakan, yaitu:
     
     a. Flat Naming Sederhana (tabel pusat ID -> IP)
         
-        Flat naming sederhana menggunakan sebuah table pusat yang menyimpan pasangan ID kurir dan alamat IP. Ketika sistem ingin mencari lokasi kurir, sistem akan melakukan pencarian berdasarkan ID kurir pada table tersebut untuk memperoleh alamat IP yang terdaftar.
-        pendekatan ini mudah diterapkan dan memiliki proses pencarian yang sederhana. Namun, ketika alamat IP kurir berubah, data pada table pusat harus diperbaharui agar sistem tidak menggunakan alamat IP yang sudah tidak berlaku. Selain itu, seluruh proses pencarian bergantung pada ketersediaan server pusat. Jika server tersebut mengalami kerusakan atau tidak dapat diakses maka proses pencarian alamat IP seluruh kurir dapat terganggu. Kondisi ini disebut Single Point of Failure (SPOF).
+    Flat naming sederhana menggunakan sebuah table pusat yang menyimpan pasangan ID kurir dan alamat IP. Ketika sistem ingin mencari lokasi kurir, sistem akan melakukan pencarian berdasarkan ID kurir pada table tersebut untuk memperoleh alamat IP yang terdaftar.
+    pendekatan ini mudah diterapkan dan memiliki proses pencarian yang sederhana. Namun, ketika alamat IP kurir berubah, data pada table pusat harus diperbaharui agar sistem tidak menggunakan alamat IP yang sudah tidak berlaku. Selain itu, seluruh proses pencarian bergantung pada ketersediaan server pusat. Jika server tersebut mengalami kerusakan atau tidak dapat diakses maka proses pencarian alamat IP seluruh kurir dapat terganggu. Kondisi ini disebut Single Point of Failure (SPOF).
    
     b. DNS Konvensional
         
-        DNS (Domain Name System) merupakan sistem yang digunakan untuk menerjemahkan nama domain menjadi alamat IP. DNS memiliki mekanisme pembaruan record dan caching yang membantu proses resolusi nama.
-        Meskipun DNS dapat menangani perubahan alamat IP melalui perubahan record, perubahan tersebut tidak selalu langsung dapat diketahui oleh seluruh pengguna karena adanya mekanisme caching dan TTL (Time to Live). Selain itu, DNS dirancang terutama untuk resolusi nama domain melalui struktur hierarkis, bukan untuk mendistribusikan mapping ID kurir ke node aplikasi dalam suatu jaringan terdistribusi.
-        Dengan demikian, DNS dapat digunakan untuk resolusi nama, tetapi kurang sesuai sebagai mekanisme utama pengelolaan lokasi kurir yang membutuhkan pembaruan mapping secara langsung pada node penanggung jawab.
+    DNS (Domain Name System) merupakan sistem yang digunakan untuk menerjemahkan nama domain menjadi alamat IP. DNS memiliki mekanisme pembaruan record dan caching yang membantu proses resolusi nama.
+    Meskipun DNS dapat menangani perubahan alamat IP melalui perubahan record, perubahan tersebut tidak selalu langsung dapat diketahui oleh seluruh pengguna karena adanya mekanisme caching dan TTL (Time to Live). Selain itu, DNS dirancang terutama untuk resolusi nama domain melalui struktur hierarkis, bukan untuk mendistribusikan mapping ID kurir ke node aplikasi dalam suatu jaringan terdistribusi.
+    Dengan demikian, DNS dapat digunakan untuk resolusi nama, tetapi kurang sesuai sebagai mekanisme utama pengelolaan lokasi kurir yang membutuhkan pembaruan mapping secara langsung pada node penanggung jawab.
     
     c. Distributed Hash Table (DHT) menggunakan Chord
         
-        DHT dengan algotirma Chord merupakan pendekatan yang lebih sesuai untuk kasus FoodGo karena penyimpanan mapping ID kurir dan alamat IP didistribusikan ke beberapa node dalam jaringan, bukan hanya disimpan pada satu server pusat.
-        Chord menggunakan consistent hashing untuk memetakan ID Node dana ID Kurir ke dalam ruangan identifier yang sama. Setiap ID Kurir akan ditetapkan pada node successor, yaitu node dengan nilai hash terkecil dalam ring.
-        Ketika alamat IP kurir berubah, sistem dapat memperbaruimapping ID Kurir dengan alamat IP terbaru pada node yang bertanggunga jawab. ID Kurir tetap digunakan sebagai identitas sehingga perubahan alamat IP tidak mengharuskan sistem mengganti identitas kurir.
-        Selain itu, Chord mendukung mekanisme node join dan leave. Ketika node baru bergabung atau node lama keluar, tanggung jawab penyimpanan mapping dapat dialihkan kepada node lain berdasarkan aturan succesor. Dengan demikian, hanya data yang terdampak perubahan topologi yang perlu dipindahkan.
+    DHT dengan algotirma Chord merupakan pendekatan yang lebih sesuai untuk kasus FoodGo karena penyimpanan mapping ID kurir dan alamat IP didistribusikan ke beberapa node dalam jaringan, bukan hanya disimpan pada satu server pusat.
+    Chord menggunakan consistent hashing untuk memetakan ID Node dana ID Kurir ke dalam ruangan identifier yang sama. Setiap ID Kurir akan ditetapkan pada node successor, yaitu node dengan nilai hash terkecil dalam ring. Ketika alamat IP kurir berubah, sistem dapat memperbaruimapping ID Kurir dengan alamat IP terbaru pada node yang bertanggunga jawab. ID Kurir tetap digunakan sebagai identitas sehingga perubahan alamat IP tidak mengharuskan sistem mengganti identitas kurir.
+    Selain itu, Chord mendukung mekanisme node join dan leave. Ketika node baru bergabung atau node lama keluar, tanggung jawab penyimpanan mapping dapat dialihkan kepada node lain berdasarkan aturan succesor. Dengan demikian, hanya data yang terdampak perubahan topologi yang perlu dipindahkan.
 
 2. Diagram 1: Sebelum Join
 ![Diagram Ring Awal](bukti/Diagram_ring_awal%20(sebelum%20Join).png)
