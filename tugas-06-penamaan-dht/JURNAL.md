@@ -1,12 +1,12 @@
 # Jurnal Proses — Tugas 6
 
 ## Implementasi find_successor
-- Kesalahan pertama yang ditemui (mis. lupa wrap-around di ring): ...
-- Cara memperbaikinya: ...
+- Kesalahan pertama yang ditemui (mis. lupa wrap-around di ring): Pada awalnya, pencarian successor belum memperhatikan kondisi wrap-around, yaitu ketika hash kurir lebih besar dari ID node terbesar.
+- Cara memperbaikinya: Menambahkan kondisi wrap-around pada fungsi find_successor supaya ketika hash kurir melebihi ID node terbesar, pencarian dilanjutkan kembali dari node dengan ID terkecil dalam ring.
 
 ## Skenario join/leave
-- Hasil sebelum & sesudah node baru bergabung: ...
-- Hasil sebelum & sesudah node keluar: ...
+- Hasil sebelum & sesudah node baru bergabung: Awalnya terdapat empat node, yaitu 40, 102, 136, dan 177. kemudian, node 123 (Medan) bergabung ke dalam ring. setelah itu, kurir-012 dengan hash 116 berpindah dari node 136 ke node 123.
+- Hasil sebelum & sesudah node keluar: Selanjutnya, node 102 (Jakarta-2) keluar dari ring. setelah node tersebut keluar, kurir-001 dengan hash 50 berpindah dari node 102 ke Node 123.
 
 ## Log Penggunaan AI (Level 2)
 
