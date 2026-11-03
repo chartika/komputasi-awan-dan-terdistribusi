@@ -33,9 +33,9 @@ python3 src/chord_simulation.py
 ## Jawaban Analisis Kelompok
 3. Dalam simulasi ini, node-jakarta-2 dengan ID hash 102 dikonfigurasikan keluar dari ring. Sebelumnya, data kurir-001 (ID hash 50) dikelola oleh node 102 karena posisinya sebagai successor dari kunci kurir tersebut. Pasca keluarnya node 102, mekanisme Chord menetapkan successor baru berdasarkan aturan ID hash terdekat yang lebih besar atau sama, sehingga node-medan-1 (ID hash 123) mengambil alih tanggung jawab penyimpanan kurir-001. Akibatnya, data pemetaan dipindahkan dari node 102 ke node 123, sementara alamat IP kurir (192.168.1.10) tidak mengalami perubahan karena modifikasi hanya berdampak pada node pengelolanya. Di sisi lain, pemetaan kurir-002 tidak terpengaruh dan tetap berada di bawah tanggung jawab node Bandung (ID hash 40) karena statusnya sebagai successor yang valid.
 
-![Bukti Output Program](bukti/output_program_node_keluar_ring.png)
+    ![Bukti Output Program](bukti/output_program_node_keluar_ring.png)
 
-Berdasarkan hasil simulasi, mekanisme leave() berhasil memindahkan mapping dari node yang keluar ke successor baru. Hal ini menunjukkan bahwa pembagian tanggung jawab dalam Chord DHT dapat menyesuaikan perubahan topologi tanpa mengubah informasi alamat IP kurir.
+    Berdasarkan hasil simulasi, mekanisme leave() berhasil memindahkan mapping dari node yang keluar ke successor baru. Hal ini menunjukkan bahwa pembagian tanggung jawab dalam Chord DHT dapat menyesuaikan perubahan topologi tanpa mengubah informasi alamat IP kurir.
 ## Struktur Submission
 
 ```
