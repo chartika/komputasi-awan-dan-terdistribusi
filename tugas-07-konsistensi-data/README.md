@@ -27,7 +27,6 @@ python3 src/replica_simulation.py
 ### Analisis Bagian 1
 
 1. Menurut kelompok kami, berdasar pada studi kasus FoodGo, Eventual Consistency saja tidak cukup untuk menangani permasalahan saldo e-wallet. Saldo adalah data yang berhubungan langsung dengan uang, sehingga angka yang ditampilkan harus selalu sesuai dengan saldo terbaru. Sebagai contoh, pelanggan melakukan top-up melalui server Jakarta, lalu langsung memesan makanan melalui server Bandung sebelum proses replikasi selesai. Pada saat itu, server Bandung masih membaca saldo lama. Akibatnya, pesanan pelanggan bisa ditolak padahal saldo sebenarnya sudah cukup.
-
 Karena itu, Sequential Consistency lebih sesuai. Model ini membuat semua replika melihat urutan operasi yang sama, sehingga top-up yang dilakukan lebih dulu pasti diperhitungkan sebelum saldo dibaca untuk transaksi berikutnya.
 Hal ini berbeda dengan data seperti jumlah like di media sosial. Data tersebut boleh terlambat diperbarui karena tidak berpengaruh langsung pada transaksi keuangan. Jadi, konsistensi data saldo perlu diprioritaskan agar tidak terjadi kesalahan transaksi dan kepercayaan pelanggan tetap terjaga.
 
