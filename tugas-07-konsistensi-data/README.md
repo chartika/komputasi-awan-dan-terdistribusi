@@ -24,6 +24,74 @@ Skeleton `src/replica_simulation.py` mensimulasikan dua replika (Jakarta & Bandu
 python3 src/replica_simulation.py
 ```
 
+### Analisis Bagian 1
+
+1. Menurut kelompok kami, berdasar pada studi kasus FoodGo, Eventual Consistency saja tidak cukup untuk menangani permasalahan saldo e-wallet. Saldo adalah data yang berhubungan langsung dengan uang, sehingga angka yang ditampilkan harus selalu sesuai dengan saldo terbaru. Sebagai contoh, pelanggan melakukan top-up melalui server Jakarta, lalu langsung memesan makanan melalui server Bandung sebelum proses replikasi selesai. Pada saat itu, server Bandung masih membaca saldo lama. Akibatnya, pesanan pelanggan bisa ditolak padahal saldo sebenarnya sudah cukup.
+
+Karena itu, Sequential Consistency lebih sesuai. Model ini membuat semua replika melihat urutan operasi yang sama, sehingga top-up yang dilakukan lebih dulu pasti diperhitungkan sebelum saldo dibaca untuk transaksi berikutnya.
+Hal ini berbeda dengan data seperti jumlah like di media sosial. Data tersebut boleh terlambat diperbarui karena tidak berpengaruh langsung pada transaksi keuangan. Jadi, konsistensi data saldo perlu diprioritaskan agar tidak terjadi kesalahan transaksi dan kepercayaan pelanggan tetap terjaga.
+
+
+2. Untuk mengatasi masalah tersebut, pendekatan Client-Centric Consistency yang dapat digunakan adalah Read-Your-Writes Consistency. Pendekatan ini memastikan pelanggan selalu dapat melihat perubahan data yang baru saja ia lakukan sendiri. Dalam kasus FoodGo, setelah pelanggan melakukan top-up melalui server Jakarta, sistem menyimpan informasi versi terbaru dari saldo tersebut. Ketika pelanggan memesan makanan melalui server Bandung, sistem akan memeriksa apakah versi saldo di server Bandung sudah yang terbaru. Jika versi di server Bandung masih lebih lama, sistem dapat melakukan salah satu dari dua hal: mengarahkan permintaan baca saldo ke server Jakarta yang sudah memiliki data terbaru, atau menunggu sampai proses replikasi selesai. Dengan begitu, pelanggan tetap melihat saldo yang sudah termasuk top-up, bukan data lama dari server Bandung. Pendekatan ini membantu mengurangi transaksi yang ditolak akibat keterlambatan replikasi. Namun, agar transaksi saldo tetap aman, sistem juga perlu menerapkan validasi dan pengelolaan transaksi yang tepat.
+
+
+3. Sequence Diagram
+    a. Skenario tanpa jaminan konsistensi (bug terjadi)
+    ```mermaid
+    sequenceDiagram
+    actor P as Pelanggan
+    participant J as Server Jakarta
+    participant B as Server Bandung
+    participant R as Proses Replikasi
+
+    P->>J: Top-up saldo Rp50.000
+    J->>J: Perbarui saldo menjadi Rp50.000
+    J-->>P: Top-up berhasil
+
+    Note over J,B: Replikasi belum selesai
+
+    P->>B: Memesan makanan
+    B->>B: Membaca saldo pelanggan
+    B-->>P: Saldo masih Rp0
+    B-->>P: Transaksi ditolak
+
+    J->>R: Kirim perubahan saldo
+    R->>B: Replikasi saldo Rp50.000
+    B->>B: Perbarui saldo menjadi Rp50.000 
+    ```
+
+
+    b. Skenario dengan Read-Your-Writes (bug teratasi)
+    ```mermaid
+    sequenceDiagram
+    actor P as Pelanggan
+    participant J as Server Jakarta
+    participant B as Server Bandung
+    participant R as Proses Replikasi
+
+    P->>J: Top-up saldo Rp50.000
+    J->>J: Perbarui saldo menjadi Rp50.000 (versi 1)
+    J-->>P: Top-up berhasil (versi 1)
+
+    Note over J,B: Replikasi masih tertunda
+
+    P->>B: Memesan makanan (versi minimal 1)
+    B->>B: Memeriksa versi saldo
+
+    Note over B: Versi Bandung masih 0
+
+    B->>J: Meminta saldo minimal versi 1
+    J-->>B: Mengirim saldo Rp50.000 (versi 1)
+
+    B->>B: Menggunakan saldo terbaru
+    B-->>P: Saldo Rp50.000
+    B-->>P: Transaksi dapat dilanjutkan
+
+    J->>R: Kirim perubahan saldo
+    R->>B: Replikasi saldo versi 1
+    B->>B: Perbarui data saldo
+    ```
+
 ## Struktur Submission
 
 ```
