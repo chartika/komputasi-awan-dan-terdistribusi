@@ -30,6 +30,7 @@ python3 src/replica_simulation.py
 Karena itu, Sequential Consistency lebih sesuai. Model ini membuat semua replika melihat urutan operasi yang sama, sehingga top-up yang dilakukan lebih dulu pasti diperhitungkan sebelum saldo dibaca untuk transaksi berikutnya. Hal ini berbeda dengan data seperti jumlah like di media sosial. Data tersebut boleh terlambat diperbarui karena tidak berpengaruh langsung pada transaksi keuangan. Jadi, konsistensi data saldo perlu diprioritaskan agar tidak terjadi kesalahan transaksi dan kepercayaan pelanggan tetap terjaga.
 2. Untuk mengatasi masalah tersebut, pendekatan Client-Centric Consistency yang dapat digunakan adalah Read-Your-Writes Consistency. Pendekatan ini memastikan pelanggan selalu dapat melihat perubahan data yang baru saja ia lakukan sendiri. Dalam kasus FoodGo, setelah pelanggan melakukan top-up melalui server Jakarta, sistem menyimpan informasi versi terbaru dari saldo tersebut. Ketika pelanggan memesan makanan melalui server Bandung, sistem akan memeriksa apakah versi saldo di server Bandung sudah yang terbaru. Jika versi di server Bandung masih lebih lama, sistem dapat melakukan salah satu dari dua hal: mengarahkan permintaan baca saldo ke server Jakarta yang sudah memiliki data terbaru, atau menunggu sampai proses replikasi selesai. Dengan begitu, pelanggan tetap melihat saldo yang sudah termasuk top-up, bukan data lama dari server Bandung. Pendekatan ini membantu mengurangi transaksi yang ditolak akibat keterlambatan replikasi. Namun, agar transaksi saldo tetap aman, sistem juga perlu menerapkan validasi dan pengelolaan transaksi yang tepat.
 3. Sequence Diagram
+    
     a. Skenario tanpa jaminan konsistensi (bug terjadi)
     ```mermaid
     sequenceDiagram
@@ -53,6 +54,7 @@ Karena itu, Sequential Consistency lebih sesuai. Model ini membuat semua replika
     R->>B: Replikasi saldo Rp50.000
     B->>B: Perbarui saldo menjadi Rp50.000 
     ```
+    
     b. Skenario dengan Read-Your-Writes (bug teratasi)
     ```mermaid
     sequenceDiagram
