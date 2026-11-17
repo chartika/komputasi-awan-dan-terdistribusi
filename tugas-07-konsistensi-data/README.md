@@ -86,6 +86,9 @@ Karena itu, Sequential Consistency lebih sesuai. Model ini membuat semua replika
     B->>B: Perbarui data saldo
     ```
 
+### Skenario Tambahan
+Pada aplikasi ojek online, ketika pengemudi menerima pesanan, sistem akan mengubah status pesanan menjadi “Diterima”. Namun, karena proses replikasi antarserver membutuhkan waktu, pelanggan mungkin masih melihat status “Mencari Pengemudi” untuk beberapa saat. Menurut kelompok kami, Eventual Consistency sudah cukup sesuai untuk skenario ini. Keterlambatan pembaruan status dalam waktu singkat masih bisa ditoleransi karena tidak menimbulkan kerugian langsung, tidak seperti saldo yang berhubungan dengan uang. Setelah proses replikasi selesai, semua server akan memiliki informasi status pesanan yang sama, sehingga pelanggan akhirnya tetap melihat perkembangan pesanannya dengan benar.
+
 ## Struktur Submission
 
 ```
