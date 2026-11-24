@@ -17,4 +17,4 @@ Pada skenario ini, pelanggan melakukan top-up tambahan sebesar Rp20.000 melalui 
 
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
 |---|---|---|---|---|
-| ... | ... | ... | ... | ... |
+| 11/1 | ... | ... | ... | ... |
